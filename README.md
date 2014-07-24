@@ -16,7 +16,7 @@ Before you can run the script, you will first need to have the data sets in your
 Extract the downloaded data sets into your local directory, make sure that data directory named "UCI_HAR_Dataset" is in the same location as the run_analysis.R script. Please make sure that data set directory includes the following files in the same structure:
 
 ```
-UCI _HAR_Dataset\
+UCI_HAR_Dataset\
                 test\
                      subject_test.txt
                      X_test.txt
