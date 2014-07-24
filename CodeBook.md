@@ -124,7 +124,6 @@ Variable | Description
 *mergedActivityNames* | the activity labels for both training and test sets along with their descriptive activity names.
 *trainingSubjects* | the list of subjects used in training set, as defined in "UCI_HAR_Dataset/train/subject_train.txt".
 *testSubjects* | the list of subjects used in test set, as defined in "UCI_HAR_Dataset/test/subject_test.txt".
-*mergedSubjects* | the list of all subjects used in training and test sets.
 *extractedDataMelt* | melted data after reshaping the extracted data so that each row is a unique id-variable combination, where id is "Subject" and "Activity", variable is the selected measurement features (selectedFeatures).
 *averageMeasurements* | the tidy data set with the average of each variable for each activity and each subject. 
 
