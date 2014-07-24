@@ -5,18 +5,76 @@ date: "Thursday, July 24, 2014"
 output: html_document
 ---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This document provides you with instructions on how to run run_analysis.R script. Please perform the following steps in order to run the script:
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+1. Download data sets:
 
-```{r}
-summary(cars)
+Before you can run the script, you will first need to have the data sets in your local directory. You can download the data sets provided here:
+
+2. Extract data sets:
+
+Extract the downloaded data sets into your local directory, make sure that data directory named "UCI_HAR_Dataset" is in the same location as the run_analysis.R script. Please make sure that data set directory includes the following files in the same structure:
+
+```
+UCI _HAR_Dataset\
+                test\
+                     subject_test.txt
+                     X_test.txt
+                     y_test.txt
+                training\
+                     subject_train.txt
+                     X_train.txt
+                     y_train.txt
+                activity_labels.txt
+                features.txt
+                features_info.txt
+                README.txt
 ```
 
-You can also embed plots, for example:
+3. Set working directory:
 
-```{r, echo=FALSE}
-plot(cars)
+Set working directory for the environment to the directory where the run_analysis.R and data set directory are. E.g.:
+
+```
+setwd(<your_local_directory>)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+4. Run run_analysis.R.
+
+When run_analysis.R runs, the script performs the following:
+  
+  4.1. Merges training and test data sets to create one data set:
+  
+    1. It first loads the train data set ("UCI_HAR_Dataset/train/X_train.txt") into the data frame called trainingData.
+    2. Loads the test data set ("UCI_HAR_Dataset/test/X_test.txt") into testData.
+    3. Merges training and test data sets to create one data set called mergedData.
+  
+  4.2. Extracts only the measurements on the mean and standard deviation for each measurement:
+    
+    1. Load measurement features from data file ("UCI_HAR_Dataset/features.txt").
+    2. Select measurements on mean and standard deviation for each measurement.
+    3. Extracts only the measurements on the mean and standard deviation for each measurement from mergedData and stored them in extractedData. 
+    
+  4.3. Uses descriptive activity names to name the activities in the data set:
+    
+    1. Loads activity labels from data file ("UCI_HAR_Dataset/activity_labels.txt").
+    2. Loads activity labels for training set from ("UCI_HAR_Dataset/train/y_train.txt").
+    3. Loads activity labels for test set from ("UCI_HAR_Dataset/test/y_test.txt").
+    4. Merges training activity labels and test activity labels into mergedLabels.
+    5. Merges activity labels with descriptive activity names.
+    6. Adds descriptive activity names to name the activities in the data set.
+    
+  4.4. Appropriately labels the data set with descriptive variable names.
+    
+  4.5. Creates a second, independent tidy data set with the average of each variable for each activity and each subject:
+    
+    1. Loads subjects for training set from ("UCI_HAR_Dataset/train/subject_train.txt").
+    2. Loads subjects for test set from ("UCI_HAR_Dataset/test/subject_test.txt").
+    3. Merges subjects for training and test sets.
+    4. Adds subjects to the extracted data set.
+    5. Creates a tidy data set with the average of each variable for each activity and each subject. 
+    6. Write the tidy data set to file "tidyData.txt".
+
+
+
+

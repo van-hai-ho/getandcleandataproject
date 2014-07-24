@@ -5,7 +5,7 @@
 rm(list = ls())
 
 # Set working directory
-setwd("K:/Passage/training/coursera/Data_Science/03_Getting_and_Cleaning_Data/project")
+#setwd("K:/Passage/training/coursera/Data_Science/03_Getting_and_Cleaning_Data/project")
 
 # 1.
 # Read train data set
