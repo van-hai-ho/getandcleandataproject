@@ -48,11 +48,16 @@ names(testLabels) <- c("ActivityLabel")
 # Merge activity labels for training and test sets
 mergedLabels <- rbind(trainingLabels, testLabels)
 
-# Adds descriptive activity names for activity labels
-mergedActivityNames <- merge(x = mergedLabels, y = activityLabels, by = "ActivityLabel", all.x = TRUE, sort = FALSE)
+# Add activity labels to the extracted data set
+extractedDataWithActivityLabel <- cbind(extractedData, mergedLabels)
 
-# Uses descriptive activity names to name the activities in the data set
-extractedData$Activity <- mergedActivityNames$Activity
+# Adds descriptive activity names for activity labels
+mergedActivityNames <- merge(x = extractedDataWithActivityLabel, 
+                             y = activityLabels, by = "ActivityLabel", 
+                             all.x = TRUE, sort = FALSE)
+
+# Remove ActivityLabel and uses descriptive activity names to name the activities in the data set
+extractedData <- subset(mergedActivityNames, select = -ActivityLabel)
 
 # 4.
 # Appropriately labels the data set with descriptive variable names. 
@@ -67,29 +72,26 @@ names(trainingSubjects) <- c("Subject")
 testSubjects <- read.table("UCI_HAR_Dataset/test/subject_test.txt", header = FALSE)
 names(testSubjects) <- c("Subject")
 
-# Combine training activity labels with subjects
-trainingActSub <- cbind(trainingLabels, trainingSubjects)
-names(trainingActSub) <- c("ActivityLabel", "Subject")
-trainingActSub2 <- merge(x = trainingActSub, y = activityLabels, by = "ActivityLabel", all.x = TRUE, sort = FALSE)
+# Merge subjects for training and test sets
+mergedSubjects <- rbind(trainingSubjects, testSubjects)
 
-# Combine test activity labels with subjects
-testActSub <- cbind(testLabels, testSubjects)
-names(testActSub) <- c("ActivityLabel", "Subject")
-testActSub2 <- merge(x = testActSub, y = activityLabels, by = "ActivityLabel", all.x = TRUE, sort = FALSE)
+# Add subjects to extracted data with activity label
+extractedDataWithActivitySubjects <- cbind(extractedDataWithActivityLabel, 
+                                           mergedSubjects)
 
-# Merge training and test activity labels and subjects
-mergedActSub2 <- rbind(trainingActSub2, testActSub2)
+# Adds descriptive activity names to the extracted data set
+mergedActivityNames <- merge(x = extractedDataWithActivitySubjects, 
+                             y = activityLabels, by = "ActivityLabel", 
+                             all.x = TRUE, sort = FALSE)
 
-# Add activity labels and subjects to the extracted data
-extractedData2 <- mergedData[, selectedFeatureIndexes]
-names(extractedData2) <- c(selectedFeatures)
-extractedData2$Activity <- mergedActSub2$Activity
-extractedData2$Subject <- mergedActSub2$Subject
+# Remove ActivityLabel and uses descriptive activity names to name the activities in the data set
+extractedData <- subset(mergedActivityNames, select = -ActivityLabel)
+names(extractedData) <- c(selectedFeatures, "Subject", "Activity")
 
 # Creates a second, independent tidy data set with the average of each variable
 # for each activity and each subject. 
 library(reshape2)
-extractedDataMelt <- melt(extractedData2, id = c("Subject", "Activity"), measure.vars = selectedFeatures)
+extractedDataMelt <- melt(extractedData, id = c("Subject", "Activity"), measure.vars = selectedFeatures)
 averageMeasurements <- dcast(extractedDataMelt, Subject + Activity ~ variable, mean)
 
 # Write the tidy data set to file
